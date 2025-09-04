@@ -1,10 +1,8 @@
-## Tourist-Anomaly-Detection
-
 # AI-Based Anomaly Detection Service
 
 ![Status](https://img.shields.io/badge/status-in_progress-yellow)
 
-[cite_start]This module is the AI-Powered Safety Engine for the "Smart Tourist Safety Monitoring" application, part of our submission for the Smart India Hackathon 2025[cite: 1, 5]. Its purpose is to analyze real-time geospatial data from tourists to detect anomalous behavior that may indicate distress.
+This module is the AI-Powered Safety Engine for the "Smart Tourist Safety Monitoring" application, part of our submission for the Smart India Hackathon 2025. Its purpose is to analyze real-time geospatial data from tourists to detect anomalous behavior that may indicate distress.
 
 ## Key Features
 
