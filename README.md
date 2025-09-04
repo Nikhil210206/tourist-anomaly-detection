@@ -16,8 +16,8 @@ The model is being developed to detect and flag the following anomalies:
 
 ## Tech Stack
 
-- [cite_start]**Backend API:** FastAPI [cite: 56]
-- [cite_start]**Machine Learning:** TensorFlow, XGBoost [cite: 58]
+- **Backend API:** FastAPI 
+- **Machine Learning:** TensorFlow, XGBoost 
 - **Data Handling:** Pandas, NumPy
 - **ML Utilities:** Scikit-learn
 
@@ -136,5 +136,5 @@ This endpoint accepts a sequence of recent GPS data points for a user and return
 
 ## Authors
 
-- [cite_start]Nikhil Balamurugan [cite: 169]
-- [cite_start]Vishaal Pillay [cite: 169]
+- Vishaal Pillay 
+- Nikhil Balamurugan 
