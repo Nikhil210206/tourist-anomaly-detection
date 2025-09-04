@@ -1,0 +1,11 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Data and Models - Lets Keep the required data and models in a seperate Drive.
+data/
+models/
+
+# Notebooks
+.ipynb_checkpoints/
