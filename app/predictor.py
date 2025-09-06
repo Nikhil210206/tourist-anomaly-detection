@@ -1,47 +1,41 @@
+# app/predictor.py
 import os
 import numpy as np
 import tensorflow as tf
 from app.model import create_lstm_model
 
-MODEL_PATH = "models/lstm_model.h5"
+MODEL_PATH = "models/lstm_multi_class_model.h5"
+ANOMALY_LABELS = {
+    0: "Normal",
+    1: "Prolonged Inactivity",
+    2: "Sudden Drop-off / Teleport",
+    3: "Deviation from Planned Route"
+}
 
 class AnomalyPredictor:
-    def __init__(self, input_shape=(30, 4), num_classes=2):
-        """
-        Initialize the predictor. Loads a trained model if available.
-        """
+    def __init__(self):
+        """Initializes the predictor by loading the trained model."""
         if os.path.exists(MODEL_PATH):
             self.model = tf.keras.models.load_model(MODEL_PATH)
         else:
-            # Create a fresh model (useful during development before training)
-            self.model = create_lstm_model(input_shape=input_shape, num_classes=num_classes)
+            # This is a fallback for development. In production, the model must exist.
+            print(f"WARNING: Model file not found at {MODEL_PATH}. Using a dummy model.")
+            self.model = None
 
     def predict(self, sequence: np.ndarray):
-        """
-        Predict anomaly on a given sequence.
+        """Predicts the anomaly type for a given sequence."""
+        if self.model is None:
+            return {"error": "Model not loaded"}
 
-        Parameters:
-        - sequence: numpy array of shape (timesteps, features)
-
-        Returns:
-        - dict with anomaly status, confidence score
-        """
-        sequence = sequence.reshape(1, *sequence.shape)  # reshape for batch
+        # Reshape for a batch of 1
+        sequence = sequence.reshape(1, *sequence.shape)
         prediction = self.model.predict(sequence, verbose=0)[0]
 
-        if self.model.output_shape[-1] == 1:
-            # Binary case
-            anomaly_prob = float(prediction)
-            return {
-                "anomaly": anomaly_prob > 0.5,
-                "confidence_score": anomaly_prob if anomaly_prob > 0.5 else 1 - anomaly_prob
-            }
-        else:
-            # Multi-class case
-            anomaly_class = int(np.argmax(prediction))
-            confidence = float(np.max(prediction))
-            return {
-                "anomaly": anomaly_class != 0,
-                "anomaly_type": anomaly_class,
-                "confidence_score": confidence
-            }
+        anomaly_class = int(np.argmax(prediction))
+        confidence = float(np.max(prediction))
+
+        return {
+            "anomaly_detected": anomaly_class != 0,
+            "anomaly_type": ANOMALY_LABELS.get(anomaly_class, "Unknown"),
+            "confidence_score": confidence
+        }
